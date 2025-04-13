@@ -1,0 +1,32 @@
+---
+import { loadQuery } from '~/lib/sanity/loadQuery';
+import { INTRO_QUERY } from '~/queries/intro';
+import type { INTRO_QUERYResult } from 'sanity.generated';
+import IntroHeader from './IntroHeader.astro';
+import IntroSocials from './IntroSocials.astro';
+import IntroAbout from './IntroAbout.astro';
+
+const { data } = await loadQuery<INTRO_QUERYResult>({
+  query: INTRO_QUERY,
+});
+
+const { image, jobTitle, name, email, github, linkedIn, resume, about } =
+  data ?? {};
+---
+
+<section class="rounded-2xl border border-slate-300 bg-slate-50">
+  {
+    image && image.asset && jobTitle && name && (
+      <IntroHeader image={image} jobTitle={jobTitle} name={name} />
+    )
+  }
+  <div class="border-t border-slate-300 px-6 py-4 flex flex-col gap-6">
+    <IntroSocials
+      email={email}
+      github={github}
+      linkedIn={linkedIn}
+      resume={resume}
+    />
+    {about && <IntroAbout about={about} />}
+  </div>
+</section>

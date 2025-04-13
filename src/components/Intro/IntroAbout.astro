@@ -1,0 +1,18 @@
+---
+import { getLangFromUrl } from '~/i18n/getLangFromUrl';
+import { useTranslations } from '~/i18n/useTranslations';
+
+interface Props {
+  about: string | null;
+}
+
+const { about } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="flex flex-col gap-2">
+  <div class="text-gray-500">{t('intro.about')}</div>
+  <p class="whitespace-pre-line">{about}</p>
+</div>

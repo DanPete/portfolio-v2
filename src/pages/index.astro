@@ -1,12 +1,13 @@
 ---
-import Welcome from '~/components/Welcome.astro';
 import Layout from '~/layouts/Layout.astro';
 import ComingSoon from '~/components/ComingSoon.astro';
-import { loadSanityQuery } from '~/lib/loadSanityQuery';
+import { loadQuery } from '~/lib/sanity/loadQuery';
 import { INDEX_SETTINGS_QUERY } from '~/queries/indexSettings';
 import type { INDEX_SETTINGS_QUERYResult } from 'sanity.generated';
+import Container from '~/components/Container.astro';
+import Intro from '~/components/Intro/index.astro';
 
-const { data } = await loadSanityQuery<INDEX_SETTINGS_QUERYResult>({
+const { data } = await loadQuery<INDEX_SETTINGS_QUERYResult>({
   query: INDEX_SETTINGS_QUERY,
 });
 
@@ -15,10 +16,14 @@ const { maintenanceMode, comingSoonHeading, comingSoonMessage } = data ?? {};
 
 <Layout>
   {
-    maintenanceMode ? (
+    !maintenanceMode ? (
       <ComingSoon heading={comingSoonHeading} message={comingSoonMessage} />
     ) : (
-      <Welcome />
+      <main>
+        <Container class="container max-w-[56.25rem]">
+          <Intro />
+        </Container>
+      </main>
     )
   }
 </Layout>

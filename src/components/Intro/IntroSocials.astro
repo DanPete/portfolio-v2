@@ -1,0 +1,72 @@
+---
+import { getLangFromUrl } from '~/i18n/getLangFromUrl';
+import { useTranslations } from '~/i18n/useTranslations';
+import IntroSocialLink from './IntroSocialLink.astro';
+
+type SocialLink = {
+  value?: string | null;
+  label?: string | null;
+};
+
+type ResumeLink = {
+  value?: {
+    asset: {
+      url: string;
+    } | null;
+  } | null;
+  label?: string | null;
+};
+
+interface Props {
+  email?: SocialLink | null;
+  github?: SocialLink | null;
+  linkedIn?: SocialLink | null;
+  resume?: ResumeLink | null;
+}
+
+const { email, github, linkedIn, resume } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div
+  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-center sm:text-left"
+>
+  {
+    email?.value && email?.label && (
+      <IntroSocialLink
+        label={t('intro.email')}
+        href={`mailto:${email.value}`}
+        text={email.label}
+      />
+    )
+  }
+  {
+    linkedIn?.value && linkedIn?.label && (
+      <IntroSocialLink
+        label={t('intro.linkedIn')}
+        href={linkedIn.value}
+        text={linkedIn.label}
+      />
+    )
+  }
+  {
+    github?.value && github?.label && (
+      <IntroSocialLink
+        label={t('intro.github')}
+        href={github.value}
+        text={github.label}
+      />
+    )
+  }
+  {
+    resume?.value?.asset?.url && resume?.label && (
+      <IntroSocialLink
+        label={t('intro.resume')}
+        href={resume.value?.asset?.url}
+        text={resume.label}
+      />
+    )
+  }
+</div>

@@ -1,15 +1,20 @@
 ---
-import '../styles/global.css';
+import '~/styles/global.css';
+import { getLangFromUrl } from '~/i18n/getLangFromUrl';
+import { useTranslations } from '~/i18n/useTranslations';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
-<html lang="en" class="size-full m-0">
+<html lang={lang} class="size-full m-0">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/DS.png" />
     <meta name="generator" content={Astro.generator} />
-    <title>Dan Sack | Portfolio</title>
+    <title>{t('site.title')}</title>
   </head>
   <body class="size-full m-0">
     <slot />

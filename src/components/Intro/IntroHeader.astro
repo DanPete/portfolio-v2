@@ -1,0 +1,36 @@
+---
+import SanityImage from '~/components/SanityImage.astro';
+import type { SanityAsset } from '@sanity/image-url/lib/types/types';
+
+interface Props {
+  image: {
+    asset: SanityAsset | null;
+  } | null;
+  jobTitle: string;
+  name: string;
+}
+
+const { image, jobTitle, name } = Astro.props;
+---
+
+<div class="px-6 py-4">
+  <div class="flex items-center gap-8">
+    {
+      image && image.asset && (
+        <div class="rounded-full">
+          <SanityImage
+            asset={image.asset}
+            alt={name || 'Profile picture'}
+            loading="eager"
+            sizes="192px"
+            containerClassName="rounded-full size-32 md:size-48"
+          />
+        </div>
+      )
+    }
+    <div class="flex flex-col">
+      {jobTitle && <p class="text-gray-500">{jobTitle}</p>}
+      {name && <h1 class="text-2xl font-bold">{name}</h1>}
+    </div>
+  </div>
+</div>

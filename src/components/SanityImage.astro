@@ -1,0 +1,59 @@
+---
+// ./src/components/PortableTextImage.astro
+import { urlForImage } from '~/lib/sanity/urlForImage';
+import type { SanityAsset } from '@sanity/image-url/lib/types/types';
+import { cn } from '~/lib/cn';
+
+interface Props {
+  asset: SanityAsset | null;
+  alt: string;
+  loading?: 'lazy' | 'eager';
+  containerClassName?: string;
+  imageClassName?: string;
+  sizes?: string;
+  fadeIn?: boolean;
+}
+
+const {
+  asset,
+  alt,
+  loading = 'lazy',
+  sizes,
+  containerClassName,
+  imageClassName,
+  fadeIn = true,
+} = Astro.props;
+
+if (!asset) return null;
+
+const url = urlForImage(asset).url();
+const webpUrl = urlForImage(asset).format('webp').url();
+---
+
+<picture>
+  <source srcset={webpUrl} type="image/webp" />
+  <fade-in-image enable={fadeIn}>
+    <div class={cn('relative overflow-hidden isolate', containerClassName)}>
+      <img
+        decoding="async"
+        src={url}
+        alt={alt}
+        loading={loading}
+        class={cn(
+          'block size-full transition-[opacity,transform] duration-700 ease-in relative z-[1]',
+          { 'opacity-0 [&.loaded]:opacity-100': fadeIn },
+          imageClassName,
+        )}
+        sizes={sizes}
+      />
+      <span
+        class="absolute block inset-0 bg-slate-600/30 bg-cover bg-no-repeat bg-center backdrop-blur-sm transition-opacity duration-300 ease-in"
+        style={{
+          backgroundImage: `url(${asset.metadata?.lqip})`,
+        }}
+        aria-hidden="true"></span>
+    </div>
+  </fade-in-image>
+</picture>
+
+<script src="~/custom-elements/fade-in-image.ts"></script>

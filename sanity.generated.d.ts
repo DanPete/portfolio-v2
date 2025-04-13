@@ -39,20 +39,65 @@ export type SanityImageDimensions = {
   aspectRatio?: number;
 };
 
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot';
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+export type Geopoint = {
+  _type: 'geopoint';
+  lat?: number;
+  lng?: number;
+  alt?: number;
 };
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop';
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+export type Slug = {
+  _type: 'slug';
+  current: string;
+  source?: string;
+};
+
+export type Intro = {
+  _id: string;
+  _type: 'intro';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  jobTitle: string;
+  name: string;
+  email?: {
+    label?: string;
+    value?: string;
+  };
+  github?: {
+    label?: string;
+    value?: string;
+  };
+  linkedIn?: {
+    label?: string;
+    value?: string;
+  };
+  resume: {
+    label?: string;
+    value?: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.fileAsset';
+      };
+      media?: unknown;
+      _type: 'file';
+    };
+  };
+  about: string;
 };
 
 export type SanityFileAsset = {
@@ -75,6 +120,22 @@ export type SanityFileAsset = {
   path?: string;
   url?: string;
   source?: SanityAssetSourceData;
+};
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop';
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot';
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type SanityImageAsset = {
@@ -100,6 +161,13 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData;
 };
 
+export type SanityAssetSourceData = {
+  _type: 'sanity.assetSourceData';
+  name?: string;
+  id?: string;
+  url?: string;
+};
+
 export type SanityImageMetadata = {
   _type: 'sanity.imageMetadata';
   location?: Geopoint;
@@ -109,26 +177,6 @@ export type SanityImageMetadata = {
   blurHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
-};
-
-export type Geopoint = {
-  _type: 'geopoint';
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
-export type Slug = {
-  _type: 'slug';
-  current: string;
-  source?: string;
-};
-
-export type SanityAssetSourceData = {
-  _type: 'sanity.assetSourceData';
-  name?: string;
-  id?: string;
-  url?: string;
 };
 
 export type Settings = {
@@ -146,14 +194,15 @@ export type AllSanitySchemaTypes =
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
-  | SanityImageHotspot
-  | SanityImageCrop
-  | SanityFileAsset
-  | SanityImageAsset
-  | SanityImageMetadata
   | Geopoint
   | Slug
+  | Intro
+  | SanityFileAsset
+  | SanityImageCrop
+  | SanityImageHotspot
+  | SanityImageAsset
   | SanityAssetSourceData
+  | SanityImageMetadata
   | Settings;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../src/queries/indexSettings.ts
@@ -166,10 +215,96 @@ export type INDEX_SETTINGS_QUERYResult = {
   comingSoonMessage: string;
 } | null;
 
+// Source: ../src/queries/intro.ts
+// Variable: INTRO_QUERY
+// Query: *[_id == "intro"][0] {  _id,  image {    asset -> {      ...    }  },  jobTitle,  name,  email {    label,    value  },  github {    label,    value  },  linkedIn {    label,    value  },  resume {    label,    value {      asset -> {        ...      }    }  },  about}
+export type INTRO_QUERYResult =
+  | {
+      _id: string;
+      image: null;
+      jobTitle: null;
+      name: null;
+      email: null;
+      github: null;
+      linkedIn: null;
+      resume: null;
+      about: null;
+    }
+  | {
+      _id: string;
+      image: {
+        asset: {
+          _id: string;
+          _type: 'sanity.imageAsset';
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url?: string;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+      };
+      jobTitle: string;
+      name: string;
+      email: {
+        label: string | null;
+        value: string | null;
+      } | null;
+      github: {
+        label: string | null;
+        value: string | null;
+      } | null;
+      linkedIn: {
+        label: string | null;
+        value: string | null;
+      } | null;
+      resume: {
+        label: string | null;
+        value: {
+          asset: {
+            _id: string;
+            _type: 'sanity.fileAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      };
+      about: string;
+    }
+  | null;
+
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
-    '*[_type == "settings"][0] {\n  _id,\n  maintenanceMode,\n  comingSoonHeading,\n  comingSoonMessage\n}': INDEX_SETTINGS_QUERYResult;
+    '\n*[_type == "settings"][0] {\n  _id,\n  maintenanceMode,\n  comingSoonHeading,\n  comingSoonMessage\n}\n': INDEX_SETTINGS_QUERYResult;
+    '\n*[_id == "intro"][0] {\n  _id,\n  image {\n    asset -> {\n      ...\n    }\n  },\n  jobTitle,\n  name,\n  email {\n    label,\n    value\n  },\n  github {\n    label,\n    value\n  },\n  linkedIn {\n    label,\n    value\n  },\n  resume {\n    label,\n    value {\n      asset -> {\n        ...\n      }\n    }\n  },\n  about\n}\n': INTRO_QUERYResult;
   }
 }

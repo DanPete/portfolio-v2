@@ -6,6 +6,7 @@ export default defineType({
   title: 'Settings',
   type: 'document',
   icon: CogIcon,
+  validation: (Rule) => Rule.required(),
   fields: [
     // boolean for maintenance mode
     defineField({

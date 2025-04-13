@@ -8,7 +8,6 @@ import netlify from '@astrojs/netlify';
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
-console.log(process.env)
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 
 // https://astro.build/config

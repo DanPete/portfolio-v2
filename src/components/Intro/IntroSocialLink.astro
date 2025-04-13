@@ -1,0 +1,23 @@
+---
+interface Props {
+  label: string;
+  href: string;
+  text: string;
+  openInNewTab?: boolean;
+}
+
+const { href, label, text, openInNewTab = true } = Astro.props;
+
+if (!href || !label || !text) return null;
+---
+
+<div class="flex flex-col">
+  <p class="text-gray-500">{label}</p>
+  <a
+    href={href}
+    class="text-gray-500 hover:text-gray-700 transition-colors duration-200"
+    {...openInNewTab && { target: '_blank' }}
+  >
+    {text}
+  </a>
+</div>
