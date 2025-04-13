@@ -1,5 +1,5 @@
-import settings from './documents/settings'
+import settings from './singletons/settings'
 
-const documents = [settings]
+const singletons = [settings]
 
-export const schemaTypes = [...documents]
+export const schemaTypes = [...singletons]

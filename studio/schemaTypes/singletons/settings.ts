@@ -7,10 +7,26 @@ export default defineType({
   type: 'document',
   icon: CogIcon,
   fields: [
+    // boolean for maintenance mode
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'maintenanceMode',
+      title: 'Maintenance Mode',
+      type: 'boolean',
+      initialValue: true,
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'comingSoonHeading',
+      title: 'Coming Soon Heading',
       type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'comingSoonMessage',
+      title: 'Coming Soon Message',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.required(),
     }),
   ],
 })

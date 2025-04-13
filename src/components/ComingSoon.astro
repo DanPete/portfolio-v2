@@ -1,3 +1,32 @@
-<main>
-  <h1>Coming Soon</h1>
+---
+interface Props {
+  heading?: string | null;
+  message?: string | null;
+}
+
+const { heading, message } = Astro.props;
+---
+
+<main
+  class="min-h-screen w-full flex flex-col items-center justify-center bg-[size:400%] animate-gradient-coming-soon bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 p-4"
+>
+  <div class="max-w-2xl mx-auto text-center flex flex-col gap-8">
+    {
+      heading && (
+        <h1 class="text-5xl md:text-6xl font-bold text-white tracking-tight">
+          {heading}
+        </h1>
+      )
+    }
+    {
+      message && (
+        <p class="text-xl text-gray-300 leading-relaxed max-w-xl mx-auto">
+          {message}
+        </p>
+      )
+    }
+  </div>
+  <span
+    class="w-24 h-1 bg-cyan-400 mx-auto rounded-full mt-8 block"
+    aria-hidden="true"></span>
 </main>

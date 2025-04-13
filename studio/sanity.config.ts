@@ -2,7 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {structure} from './structure'
+import {singletonActions, singletonTypes, structure} from './structure'
 
 if (!import.meta.env.SANITY_STUDIO_PROJECT_ID) {
   throw new Error('Missing SANITY_STUDIO_PROJECT_ID')
@@ -28,5 +28,14 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+
+    templates: (templates) => templates.filter(({schemaType}) => !singletonTypes.has(schemaType)),
+  },
+
+  document: {
+    actions: (input, context) =>
+      singletonTypes.has(context.schemaType)
+        ? input.filter(({action}) => action && singletonActions.has(action))
+        : input,
   },
 })
