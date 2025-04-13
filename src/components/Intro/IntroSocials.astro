@@ -2,20 +2,14 @@
 import { getLangFromUrl } from '~/i18n/getLangFromUrl';
 import { useTranslations } from '~/i18n/useTranslations';
 import IntroSocialLink from './IntroSocialLink.astro';
+import type { INTRO_QUERYResult } from 'sanity.generated';
 
-type SocialLink = {
-  value?: string | null;
-  label?: string | null;
-};
+type SocialLink =
+  | NonNullable<INTRO_QUERYResult>['email']
+  | NonNullable<INTRO_QUERYResult>['github']
+  | NonNullable<INTRO_QUERYResult>['linkedIn'];
 
-type ResumeLink = {
-  value?: {
-    asset: {
-      url: string;
-    } | null;
-  } | null;
-  label?: string | null;
-};
+type ResumeLink = NonNullable<INTRO_QUERYResult>['resume'];
 
 interface Props {
   email?: SocialLink | null;

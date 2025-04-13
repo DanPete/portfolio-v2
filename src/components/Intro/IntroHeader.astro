@@ -1,14 +1,10 @@
 ---
 import SanityImage from '~/components/SanityImage.astro';
-import type { SanityAsset } from '@sanity/image-url/lib/types/types';
+import type { INTRO_QUERYResult } from 'sanity.generated';
+import type { PickPartial } from '~/lib/sanity/partialPick';
 
-interface Props {
-  image: {
-    asset: SanityAsset | null;
-  } | null;
-  jobTitle: string;
-  name: string;
-}
+interface Props
+  extends PickPartial<INTRO_QUERYResult, 'image' | 'jobTitle' | 'name'> {}
 
 const { image, jobTitle, name } = Astro.props;
 ---
